@@ -48,15 +48,16 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Schedules <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+								@if(Auth::check())
+								<li>
+									<a href="#">Set Profile</a>
+								</li>
 								<li>
 									<a href="#">Lectures</a>
 								</li>
 								<li>
 									<a href="#">Assignments</a>
 								</li>
-								
-								@if(Auth::check())
-								
 								@else
 								<li>
 									<a href="">Sign in</a>
@@ -94,15 +95,22 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Your are not logged in<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+								@if(Auth::check())
+								<li>
+									<a href="#">Set Profile</a>
+								</li>
 								<li>
 									<a href="#">Lectures</a>
 								</li>
 								<li>
 									<a href="#">Assignments</a>
 								</li>
-								@if (Auth::check())
 								<li>
 									<a href="{{ URL::route('account-sign-out') }}">Log out</a>
+								</li>
+								@else
+								<li>
+									<a href="#">Log in</a>
 								</li>
 								@endif
 								<li class="divider"></li>
