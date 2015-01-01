@@ -5,14 +5,20 @@
 	<form class='form-horizontal' action="{{ URL::route('account-create-post') }}" method="post">
 		
 		<div class='field-control'>
-			Email: <input class='form-control' type="text" name="email" {{ (Input::old('email')) ? ' value="' . e(Input::old('email')) . '"' : '' }} />
+			<label class="control-label col-sm-2" for="email">Email:</label>
+			<div class="col-sm-10">
+				<input class='form-control' type="text" name="email" {{ (Input::old('email')) ? ' value="' . e(Input::old('email')) . '"' : '' }} />
+			</div>
 		</div>
 		@if($errors->has('email')) 
 				{{ $errors->first('email') }}
 		@endif
-		
+		<br>
 		<div class='field'>
-			Username: <input class='form-control' type="text" name="username" {{ (Input::old('username')) ? ' value="' . e(Input::old('username')) . '"' : '' }} />
+			<label class="control-label col-sm-2" for="username">Username:</label>
+			<div class="col-sm-10">
+				<input class='form-control' type="text" name="username" {{ (Input::old('username')) ? ' value="' . e(Input::old('username')) . '"' : '' }} />
+			</div>
 		</div>
 		@if($errors->has('username')) 
 				{{ $errors->first('username') }}
@@ -30,41 +36,42 @@
 				<input type="radio" name="category" value="other" id="radio_other" />Other
 			</label>
 		</div>
-		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 		<script type="text/javascript">
-    	$(document).ready(function(){
-    		$('.box').hide();
-        	$('#radio_student').click(function(){
-            	//if($(this).attr("value")=="student"){
-                	$('.box').show();
-            	//}
-            });
-            $('#radio_faculty').click(function(){
-            	//if($(this).attr("value")=="student"){
-                	$('.box').hide();
-            	//}
-            });
-            $('#radio_other').click(function(){
-            	//if($(this).attr("value")=="student"){
-                	$('.box').hide();
-            	//}
-            });
-    	});
+	    	$(document).ready(function(){
+	    		$('#box').hide();
+	        	$('#radio_student').click(function(){
+	                $('#box').show();
+	            });
+	            $('#radio_faculty').click(function(){
+	                $('#box').hide();
+	            });
+	            $('#radio_other').click(function(){
+	                $('#box').hide();
+	            });
+	    	});
 		</script>
-		<div class="box">
-			Course: <select class="form-control">
+		<br>
+		<div class="form-group" id="box">
+			<label class="control-label col-sm-2" for="course">Course:</label>
+			<div class="col-sm-10">
+					<select class="form-control" id="course">
   						<option value="be">B.E.</option>
   						<option value="mba">MBA</option>
   						<option value="mca">MCA</option>
   						<option value="other">Other</option>
 					</select>
-			Branch: <select class="form-control">
+			</div>
+			<label class="control-label col-sm-2" for="branch">Branch</label>
+			<div class="col-sm-10">
+					 <select class="form-control" id="branch">
   						<option value="cse">CSE</option>
   						<option value="ee">EE</option>
   						<option value="me">ME</option>
   						<option value="ce">CE</option>
 					</select>
-			Semester: 
+			</div>	
+			<label class="control-label col-sm-2" for="branch">Semester</label>
+			<div class="col-sm-10">
 					<select class="form-control">
   						<option value="1">I</option>
   						<option value="2">II</option>
@@ -73,15 +80,24 @@
 						<option value="5">V</option>
 						<option value="6">VI</option>
 						<option value="7">VII</option>
-						<option value="8">VII (Final)</option>
+						<option value="8">VIII (Final)</option>
 					</select>
-			Class: <select class="form-control">
+			</div>		
+			<label class="control-label col-sm-2" for="branch">Class</label>
+			<div class="col-sm-10">
+					<select class="form-control">
   						<option value="be">CS1</option>
   						<option value="mba">CS2</option>
   						<option value="mca">CS3</option>
   					</select>
-			Enrollment no.:
-				<input type="text" value="rollno" />
+  			</div>
+  			<br>
+  			<div class="field">
+  				<label class="control-label col-sm-2" for="branch">Enrollment no.</label>	
+  				<div class="col-sm-10">	
+					<input class="form-control" type="text" name="rollno" />
+				</div>
+			</div>	
 		</div>
 		<br>
 		@if($errors->has('category')) 
@@ -90,14 +106,20 @@
 		<!--- /Radio -->
 
 		<div class='field'>
-			Password: <input class='form-control' type="password" name="password" />
+			<label class="control-label col-sm-2" for="branch">Password</label>
+			<div class="col-sm-10">	
+				<input class='form-control' type="password" name="password" />
+			</div>	
 		</div>
 		@if($errors->has('password')) 
 				{{ $errors->first('password') }}
 		@endif
 
 		<div class='field'>
-			Password again: <input class='form-control' type="password" name="password_again" />
+			<label class="control-label col-sm-2" for="branch">Password Again</label>
+			<div class="col-sm-10">
+				<input class='form-control' type="password" name="password_again" />
+			</div>
 		</div>
 		@if($errors->has('password_again')) 
 				{{ $errors->first('password_again') }}
