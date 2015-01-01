@@ -125,8 +125,13 @@
 				{{ $errors->first('password_again') }}
 		@endif
 		
-		<button class='btn btn-info' type="submit">Create account</button>
-		
+		<!-- Making it look less ugly for now. this form is temperary and will be redone entirely-->
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="createbutton"></label>
+			<div class="col-md-4 center-block"> 
+				<button class='btn btn-info btn-block' type="submit" name="createbutton">Create account</button>
+			</div>
+		</div>
 		{{ Form::token() }}
 	</form>
 </div>
