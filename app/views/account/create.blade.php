@@ -27,7 +27,8 @@
 		<!--- Radio -->
 		<div class="radio-inline">
 			<label class="radio-inline">
-				<input type="radio" name="category" id="radio_student" value="student "/>Student
+				<input type="radio" name="category" id="radio_student" value="student" 
+				{{ ((Input::old('category')) == 'student') ? 'checked="true"' :  NULL }}/>Student
 			</label>
 			<label class="radio-inline">
 				<input type="radio" name="category" value="faculty" id="radio_faculty"/>Faculty
@@ -36,9 +37,14 @@
 				<input type="radio" name="category" value="other" id="radio_other" />Other
 			</label>
 		</div>
+		@if($errors->has('category')) 
+				{{ $errors->first('category') }}
+		@endif
 		<script type="text/javascript">
 	    	$(document).ready(function(){
-	    		$('#box').hide();
+	    		if (!($('#radio_student').is(':checked'))) {
+	    			$('#box').hide();
+	    		}
 	        	$('#radio_student').click(function(){
 	                $('#box').show();
 	            });
@@ -48,13 +54,13 @@
 	            $('#radio_other').click(function(){
 	                $('#box').hide();
 	            });
-	    	});
+	    	});	
 		</script>
 		<br>
 		<div class="form-group" id="box">
 			<label class="control-label col-sm-2" for="course">Course:</label>
 			<div class="col-sm-10">
-					<select class="form-control" id="course">
+					<select class="form-control" id="course" name="course">
   						<option value="be">B.E.</option>
   						<option value="mba">MBA</option>
   						<option value="mca">MCA</option>
@@ -63,7 +69,7 @@
 			</div>
 			<label class="control-label col-sm-2" for="branch">Branch</label>
 			<div class="col-sm-10">
-					 <select class="form-control" id="branch">
+					 <select class="form-control" id="branch" name="branch">
   						<option value="cse">CSE</option>
   						<option value="ee">EE</option>
   						<option value="me">ME</option>
@@ -72,7 +78,7 @@
 			</div>	
 			<label class="control-label col-sm-2" for="branch">Semester</label>
 			<div class="col-sm-10">
-					<select class="form-control">
+					<select class="form-control" name="semester">
   						<option value="1">I</option>
   						<option value="2">II</option>
   						<option value="3">III</option>
@@ -85,7 +91,7 @@
 			</div>		
 			<label class="control-label col-sm-2" for="branch">Class</label>
 			<div class="col-sm-10">
-					<select class="form-control">
+					<select class="form-control" name="class">
   						<option value="be">CS1</option>
   						<option value="mba">CS2</option>
   						<option value="mca">CS3</option>
@@ -97,7 +103,10 @@
   				<div class="col-sm-10">	
 					<input class="form-control" type="text" name="rollno" />
 				</div>
-			</div>	
+			</div>
+			@if($errors->has('rollno')) 
+				{{ $errors->first('rollno') }}
+			@endif		
 		</div>
 		<br>
 		@if($errors->has('category')) 

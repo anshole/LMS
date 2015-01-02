@@ -1,7 +1,7 @@
 <?php
 
 class AccountController extends  BaseController {
-	
+
 	public function getCreate() {
 		return View::make('account.create');
 	}
@@ -12,11 +12,16 @@ class AccountController extends  BaseController {
 				'email' => 'required | max:50 | email | unique:users',	
 				'username' => 'required | max:50 | min:3 | alpha_dash | unique:users',
 				'category' => 'required',
+				'course' => 'required_with:category,student',
+				'brach' => 'required_with:category,student',
+				'semester' => 'required_with:category,student',
+				'class' => 'required_with:category,student',
+				'rollno' => 'required_with:category,student | numeric',
 				'password' => 'required | min:6',	
-				'password_again' => 'required | same:password',	
+				'password_again' => 'required | same:password',
 			)
 		);
-		
+
 		if ($validator->fails()) {
 			return Redirect::route('account-create')
 						-> withErrors($validator)
