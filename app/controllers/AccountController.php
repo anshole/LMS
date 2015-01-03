@@ -40,10 +40,6 @@ class AccountController extends  BaseController {
 			$first_name = Input::get('first_name');
 			$last_name = Input::get('last_name');
 
-			if (Input::has('rollno')) {
-				Log::info('It has rollno it in bhaijan');
-			}
- 
 			// Activation code
 			$code = str_random(60);
 			
@@ -129,6 +125,15 @@ class AccountController extends  BaseController {
 			), $remember);
 			
 			if($auth) {
+				$firstname = Auth::user()->username;
+				// Send Faculties to faculty page.
+				if(Auth::user()->category == 'faculty') {
+					return Redirect::route('facultyhome', $firstname)->with('firstname', $firstname);
+				}
+				// Send Students to student page.
+				if(Auth::user()->category == 'student') {
+					return Redirect::route('studenthome', $firstname)->with('firstname', $firstname);
+				}
 				// Redirec to intended page
 				return Redirect::route('home')->with('global', 'thisisatejast');
 			} else {
@@ -147,5 +152,4 @@ class AccountController extends  BaseController {
 		Auth::logout();	
 		return Redirect::route('home');
 	}
-
 }

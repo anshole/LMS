@@ -31,6 +31,20 @@ Route::get('/', array(
 		'as' => 'account-sign-out',
 		'uses' => 'AccountController@getSignOut'
 	));
+
+	/*
+	* Faculty home page.
+	*/
+	Route::get('/faculty/{firstname}/', array( 'as' => 'facultyhome', function($firstname) {
+			return View::make('faculty');
+	}));
+
+	/*
+	* Student home page
+	*/
+	Route::get('/student/{firstname}/', array( 'as' => 'studenthome', function($firstname) {
+			return View::make('student');
+	}));
  });
 
 /*
