@@ -4,9 +4,11 @@
 
 <h2>Faculty content page.</h2>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
 <script type="text/javascript" src="http://cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
 
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -492,11 +494,13 @@
 </table>
 <script type="text/javascript">
 	$(document).ready(function() {
-    	var table = $('#example').DataTable();
-    	var tt = new $.fn.dataTable.TableTools( table );
- 
-    	$( tt.fnContainer() ).insertBefore('div.dataTables_wrapper');
-	});
+	    $('#example').DataTable( {
+	        dom: 'T<"clear">lfrtip',
+	        tableTools: {
+	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+	        }
+	    } );
+	} );
 </script>
 <style type="text/css">
 	body { font-size: 140%; }
