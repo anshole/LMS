@@ -9,20 +9,23 @@ class AccountController extends  BaseController {
 	public function postCreate() {
 		$validator = Validator::make(Input::all(), 
 			array(
-				'email' => 'required | max:50 | email | unique:users',	
+				'email' => 'required | max:50 | email | unique:users',
+				'first_name' => 'required',
+				'last_name' => 'required',
 				'username' => 'required | max:50 | min:3 | alpha_dash | unique:users',
 				'category' => 'required',
-				'course' => 'required_with:category,student',
-				'brach' => 'required_with:category,student',
-				'semester' => 'required_with:category,student',
-				'class' => 'required_with:category,student',
-				'rollno' => 'required_with:category,student | numeric',
+				'course' => 'required_if:category,student',
+				'branch' => 'required_if:category,student',
+				'semester' => 'required_if:category,student',
+				'class' => 'required_if:category,student | max:60 | alpha_dash',
+				'rollno' => 'required_if:category,student',
 				'password' => 'required | min:6',	
-				'password_again' => 'required | same:password',
+				'password_again' => 'required | same:password'
 			)
 		);
 
 		if ($validator->fails()) {
+			Log::info('failed here a');
 			return Redirect::route('account-create')
 						-> withErrors($validator)
 						-> withInput();
@@ -31,7 +34,16 @@ class AccountController extends  BaseController {
 			$username = Input::get('username');
 			$category = Input::get('category');
 			$password = Input::get('password');
-			
+
+
+
+			$first_name = Input::get('first_name');
+			$last_name = Input::get('last_name');
+
+			if (Input::has('rollno')) {
+				Log::info('It has rollno it in bhaijan');
+			}
+ 
 			// Activation code
 			$code = str_random(60);
 			
@@ -44,6 +56,18 @@ class AccountController extends  BaseController {
 				'active' => 0
 			));
 			
+			if ((Input::get('category')) == 'student') {
+				$class = Input::get('class');
+
+				$student = Student::create(array(
+						'student_id' => $user->id,
+						'first_name' => $first_name,
+						'last_name' => $last_name,
+						'class' => $class
+				));
+			}
+			
+
 			if ($user) {
 				// Send email
 				Mail::send('emails.auth.activate', array('link'=> URL::route('account-activate', $code), 'username'=>$username), function($message) use ($user){
@@ -53,7 +77,11 @@ class AccountController extends  BaseController {
 				return Redirect::route('home')
 						-> with('global', 'Your account has been created! We have sent you an email to activate your account.');
 			}
+
+			Log::info('1');
 		}
+
+		Log::info('2');
 	}
 
 	public function getActivate($code) {

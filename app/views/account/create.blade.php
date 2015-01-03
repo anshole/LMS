@@ -24,6 +24,26 @@
 				{{ $errors->first('username') }}
 		@endif
 
+		<div class='field'>
+			<label class="control-label col-sm-2" for="first_name">First Name:</label>
+			<div class="col-sm-10">
+				<input class='form-control' type="text" name="first_name" {{ (Input::old('first_name')) ? ' value="' . e(Input::old('first_name')) . '"' : '' }} />
+			</div>
+		</div>
+		@if($errors->has('first_name')) 
+				{{ $errors->first('first_name') }}
+		@endif
+
+		<div class='field'>
+			<label class="control-label col-sm-2" for="last_name">Last Name:</label>
+			<div class="col-sm-10">
+				<input class='form-control' type="text" name="last_name" {{ (Input::old('last_name')) ? ' value="' . e(Input::old('last_name')) . '"' : '' }} />
+			</div>
+		</div>
+		@if($errors->has('last_name')) 
+				{{ $errors->first('last_name') }}
+		@endif
+
 		<!--- Radio -->
 		<div class="radio-inline">
 			<label class="radio-inline">
@@ -31,10 +51,10 @@
 				{{ ((Input::old('category')) == 'student') ? 'checked="true"' :  NULL }}/>Student
 			</label>
 			<label class="radio-inline">
-				<input type="radio" name="category" value="faculty" id="radio_faculty"/>Faculty
+				<input type="radio" name="category" value="faculty" id="radio_faculty" {{ ((Input::old('category')) == 'faculty') ? 'checked="true"' :  NULL }}/>Faculty
 			</label>
 			<label class="radio-inline">
-				<input type="radio" name="category" value="other" id="radio_other" />Other
+				<input type="radio" name="category" value="other" id="radio_other" {{ ((Input::old('category')) == 'other') ? 'checked="true"' :  NULL }}/>Other
 			</label>
 		</div>
 		@if($errors->has('category')) 
@@ -92,9 +112,9 @@
 			<label class="control-label col-sm-2" for="branch">Class</label>
 			<div class="col-sm-10">
 					<select class="form-control" name="class">
-  						<option value="be">CS1</option>
-  						<option value="mba">CS2</option>
-  						<option value="mca">CS3</option>
+  						<option value="cs1">CS1</option>
+  						<option value="cs2">CS2</option>
+  						<option value="cs3">CS3</option>
   					</select>
   			</div>
   			<br>

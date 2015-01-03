@@ -7,7 +7,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class Student extends Eloquent implements UserInterface, RemindableInterface {
 	
-	protected $fillable = array('first_name', 'last_name' ,'class_id');
+	protected $fillable = array('student_id', 'first_name', 'last_name' ,'class');
 
 	use UserTrait, RemindableTrait;
 
