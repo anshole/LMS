@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('content')
-
 <h2>Faculty content page.</h2>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
@@ -9,6 +8,19 @@
 <script type="text/javascript" src="http://cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+
+<div style="position:relative;">
+	<form method="post" action="">
+		<label for="file_source">Upload file: </label>
+        <a class='btn btn-primary' href='javascript:;'>
+            Choose File...
+            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+        </a>
+        &nbsp;
+        <span class='label label-info' id="upload-file-info"></span>
+	</form>
+</div>
+<br>
 
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -492,7 +504,38 @@
         </tr>
     </tbody>
 </table>
+<table id="example2" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<thead>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>6</th>
+
+	</thead>
+</table>
 <script type="text/javascript">
+	// Example 2
+	var data = [
+	    [
+	        "Tiger Nixon",
+	        "System Architect",
+	        "Edinburgh",
+	        "5421",
+	        "2011/04/25",
+	        "$3,120"
+	    ],
+	    [
+	        "Garrett Winters",
+	        "Director",
+	        "Edinburgh",
+	        "8422",
+	        "2011/07/25",
+	        "$5,300"
+	    ]
+	]
+
 	$(document).ready(function() {
 	    $('#example').DataTable( {
 	        dom: 'T<"clear">lfrtip',
@@ -500,6 +543,14 @@
 	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
 	        }
 	    } );
+	
+		$('#example2').DataTable( {
+    		data: data,
+    		dom: 'T<"clear">lfrtip',
+	    	tableTools: {
+	    		"sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+	    	}
+		} );
 	} );
 </script>
 <style type="text/css">
@@ -507,5 +558,34 @@
     div.DTTT { margin-bottom: 0.5em; float: right; }
     div.dataTables_wrapper { clear: both; }
 </style>
-
 @stop
+
+<?php
+$inputFileName = './files/index.xlsx';
+
+if (!file_exists($inputFileName)) {
+	exit("File not found." . EOL);
+} 
+
+$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+
+try {
+    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+    $objPHPExcel = $objReader->canRead($inputFileName);
+    $objPHPExcel = $objReader->load($inputFileName);
+} catch (Exception $e) {
+    die('Error loading file');
+}
+$sheet = $objPHPExcel->getSheet(0);
+$highestRow = $sheet->getHighestRow();
+$highestColumn = $sheet->getHighestColumn();
+
+for ($row = 1; $row <= $highestRow; $row++) {
+    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
+    NULL, TRUE, FALSE);
+    // foreach($rowData[0] as $k=>$v)
+    // 	if ($v != '')
+    //     	echo "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+}
+?>
