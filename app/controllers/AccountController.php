@@ -128,11 +128,11 @@ class AccountController extends  BaseController {
 				$firstname = Auth::user()->username;
 				// Send Faculties to faculty page.
 				if(Auth::user()->category == 'faculty') {
-					return Redirect::route('facultyhome', $firstname)->with('firstname', $firstname);
+					return Redirect::route('facultyhome', $firstname);
 				}
 				// Send Students to student page.
 				if(Auth::user()->category == 'student') {
-					return Redirect::route('studenthome', $firstname)->with('firstname', $firstname);
+					return Redirect::route('studenthome', $firstname);
 				}
 				// Redirec to intended page
 				return Redirect::route('home')->with('global', 'thisisatejast');
@@ -145,7 +145,7 @@ class AccountController extends  BaseController {
 		
 		// return Redirect::route('home')
 				// ->with('global', 'There was a problem signing you in. Have you activated your account?');
-			return View::make('account.create');
+		return View::make('account.create');
 	}
 	
 	public function getSignOut() {
