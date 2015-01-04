@@ -152,4 +152,14 @@ class AccountController extends  BaseController {
 		Auth::logout();	
 		return Redirect::route('home');
 	}
+
+	// This is be moved during clean up
+	public function postUploadFile() {
+		$file = Input::file('data');
+		$destinationPath = public_path().'/uploads';
+        $filename        = str_random(6) . '_' . $file->getClientOriginalName();
+        $uploadSuccess   = $file->move($destinationPath, $filename);
+		//readUploadedFile($destinationPath . $filename);
+		echo "File Uploaded: " . $filename . " at " . $destinationPath . " - " . $uploadSuccess;
+	}
 }

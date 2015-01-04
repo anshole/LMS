@@ -9,18 +9,22 @@
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
 
-<div style="position:relative;">
-	<form method="post" action="">
-		<label for="file_source">Upload file: </label>
+<!-- <div style="position:relative;">
+	<form method="post" action="{{basename($_SERVER['PHP_SELF'], ".php");}}">
+		<label style="font-size:15px">Upload file: </label>
         <a class='btn btn-primary' href='javascript:;'>
             Choose File...
-            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40">
         </a>
         &nbsp;
-        <span class='label label-info' id="upload-file-info"></span>
+        <span class='label label-info' id="upload-file-info"></span><br>
+		<input type="submit" name="submit" value="submit" style="'position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'" />
 	</form>
 </div>
-<br>
+<br> -->
+
+<input type="file" id="file-source" name="file"><br>
+<button onclick="uploadFile()">Upload File</button><br><br>
 
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -515,8 +519,30 @@
 
 	</thead>
 </table>
-<script type="text/javascript">
-	// Example 2
+<script>
+	// File input functionality
+	function uploadFile() {
+		console.log("Uploading file...");
+		var file = document.getElementById("file-source").files[0];
+		var ext = file.type;
+		console.log('Creating XMLHttpRequest...');
+		var ajax = new XMLHttpRequest();
+		var formdata = new FormData();
+		formdata.append('data', file);
+		formdata.append('ext', ext);
+
+		ajax.addEventListener('load', handleUpload, false);
+
+		ajax.open('POST', '/projects/laravel/authapp/public/faculty/zxczc');
+		ajax.send(formdata);
+	}
+
+	function handleUpload(e) {
+		var respose = this.responseText;
+		console.log(respose);
+	}
+
+	// Example table 2
 	var data = [
 	    [
 	        "Tiger Nixon",
@@ -558,34 +584,45 @@
     div.DTTT { margin-bottom: 0.5em; float: right; }
     div.dataTables_wrapper { clear: both; }
 </style>
-@stop
 
 <?php
-$inputFileName = './files/index.xlsx';
+// Handle File upload
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$file = $_POST["file_source"];
 
-if (!file_exists($inputFileName)) {
-	exit("File not found." . EOL);
-} 
-
-$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-
-try {
-    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-    $objPHPExcel = $objReader->canRead($inputFileName);
-    $objPHPExcel = $objReader->load($inputFileName);
-} catch (Exception $e) {
-    die('Error loading file');
+	readUploadedFile('$file');
 }
-$sheet = $objPHPExcel->getSheet(0);
-$highestRow = $sheet->getHighestRow();
-$highestColumn = $sheet->getHighestColumn();
 
-for ($row = 1; $row <= $highestRow; $row++) {
-    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
-    NULL, TRUE, FALSE);
-    // foreach($rowData[0] as $k=>$v)
-    // 	if ($v != '')
-    //     	echo "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+function readUploadedFile($file) {
+	$inputFileName =  $file; //'./files/index.xlsx';
+
+	if (!file_exists($inputFileName)) {
+		exit("File not found." . EOL);
+	} 
+
+	$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+
+	try {
+	    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+	    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+	    $objPHPExcel = $objReader->canRead($inputFileName);
+	    $objPHPExcel = $objReader->load($inputFileName);
+	} catch (Exception $e) {
+	    die('Error loading file');
+	}
+	$sheet = $objPHPExcel->getSheet(0);
+	$highestRow = $sheet->getHighestRow();
+	$highestColumn = $sheet->getHighestColumn();
+
+	for ($row = 1; $row <= $highestRow; $row++) {
+	    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
+	    NULL, TRUE, FALSE);
+	    foreach($rowData[0] as $k=>$v)
+	    	if ($v != '')
+	        	echo "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+	}	
 }
+// Read file
 ?>
+
+@stop

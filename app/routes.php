@@ -21,6 +21,13 @@ Route::get('/', array(
 // }));
 
 /*
+ * File upload (test)
+*/
+Route::post('/faculty/zxczc', array(
+	'uses' => 'AccountController@postUploadFile'
+));
+
+/*
  * Authenticated group
  */
  Route::group(array('before' => 'auth'), function() {
