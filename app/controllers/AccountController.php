@@ -159,7 +159,38 @@ class AccountController extends  BaseController {
         $destinationPath = public_path().'/uploads';
         $filename        = str_random(6) . '_' . $file->getClientOriginalName();
         $uploadSuccess   = $file->move($destinationPath, $filename);
-        //readUploadedFile($destinationPath . $filename);
+        
         echo "File Uploaded: " . $filename . " at " . $destinationPath . " - " . $uploadSuccess;
+
+        $inputFileName =  $destinationPath . '/' . $filename; //public_path() . '\files\index.xlsx'; //'./files/index.xlsx';
+
+        if (!file_exists($inputFileName)) {
+            print("[ERROR] File not found ----------" . $inputFileName);
+            exit("File not found." . EOL);
+        } 
+
+        $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->canRead($inputFileName);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file');
+        }
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        $res = "";
+        for ($row = 1; $row <= $highestRow; $row++) {
+            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
+            NULL, TRUE, FALSE);
+            foreach($rowData[0] as $k=>$v)
+                if ($v != '')
+                    $res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+        }
+
+        echo $res;   
     }
 }

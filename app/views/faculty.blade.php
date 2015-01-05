@@ -527,9 +527,11 @@
 		var ext = file.type;
 		console.log('Creating XMLHttpRequest...');
 		var ajax = new XMLHttpRequest();
+		var fileid = Math.random().toString(36).substring(7);
 		var formdata = new FormData();
 		formdata.append('data', file);
 		formdata.append('ext', ext);
+		formdata.append('id', fileid);
 
 		ajax.addEventListener('load', handleUpload, false);
 
@@ -540,6 +542,7 @@
 	function handleUpload(e) {
 		var respose = this.responseText;
 		console.log(respose);
+		$('body').append(respose);
 	}
 
 	// Example table 2
