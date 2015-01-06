@@ -24,7 +24,7 @@ Route::get('/', array(
  * File upload (test)
 */
 Route::post('/faculty/zxczc', array(
-	'uses' => 'AccountController@postUploadFile'
+	'uses' => 'FacultyController@postUploadFile'
 ));
 
 /*
