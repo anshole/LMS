@@ -160,9 +160,9 @@ class AccountController extends  BaseController {
         $filename        = str_random(6) . '_' . $file->getClientOriginalName();
         $uploadSuccess   = $file->move($destinationPath, $filename);
         
-        echo "File Uploaded: " . $filename . " at " . $destinationPath . " - " . $uploadSuccess;
+        //echo "File Uploaded: " . $filename . " at " . $destinationPath . " - " . $uploadSuccess;
 
-        $inputFileName =  $destinationPath . '/' . $filename; //public_path() . '\files\index.xlsx'; //'./files/index.xlsx';
+        $inputFileName =  $destinationPath . '/' . $filename; //public_path() . '/files/index.xlsx';
 
         if (!file_exists($inputFileName)) {
             print("[ERROR] File not found ----------" . $inputFileName);
@@ -182,15 +182,30 @@ class AccountController extends  BaseController {
         $sheet = $objPHPExcel->getSheet(0);
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
-        $res = "";
+        //$res = "";
+        $t1 = "Filename<br>";
+        $t1 = "<table id='upload' class='table table-striped table-bordered' cellspacing='0' width='100%''>";
+        $t1 = $t1 . "<thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+        </tr>
+        </thead>" . "<br/>" . "<tbody>";
         for ($row = 1; $row <= $highestRow; $row++) {
+            $t1 = $t1 . "<tr>";
             $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
             NULL, TRUE, FALSE);
             foreach($rowData[0] as $k=>$v)
                 if ($v != '')
-                    $res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+                    $t1 = $t1 . "<td>" .$v . "</td>";
+                    //$res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+            $t1 = $t1 . "</tr>";
         }
-
-        echo $res;   
+        $t1 = $t1 . "</tbody></table>";
+        echo $t1;
     }
 }

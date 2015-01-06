@@ -543,6 +543,12 @@
 		var respose = this.responseText;
 		console.log(respose);
 		$('body').append(respose);
+		$('#upload').DataTable( {
+	        dom: 'T<"clear">lfrtip',
+	        tableTools: {
+	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+	        }
+	   } );
 	}
 
 	// Example table 2
