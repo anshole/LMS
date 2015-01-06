@@ -185,17 +185,18 @@ class AccountController extends  BaseController {
         //$res = "";
         $t1 = "Filename<br>";
         $t1 = "<table id='upload' class='table table-striped table-bordered' cellspacing='0' width='100%''>";
-        $t1 = $t1 . "<thead>
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-        </tr>
-        </thead>" . "<br/>" . "<tbody>";
+        
         for ($row = 1; $row <= $highestRow; $row++) {
+            if ($row == 1) {
+                $t1 = $t1 . "<thead>";
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
+                NULL, TRUE, FALSE);
+                foreach($rowData[0] as $k=>$v)
+                    if ($v != '')
+                        $t1 = $t1 . "<th>" .$v . "</th>";
+                        //$res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
+                $t1 = $t1 . "</thead>";
+            }
             $t1 = $t1 . "<tr>";
             $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
             NULL, TRUE, FALSE);

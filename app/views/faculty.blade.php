@@ -24,7 +24,7 @@
 <br> -->
 
 <input type="file" id="file-source" name="file"><br>
-<button onclick="uploadFile()">Upload File</button><br><br>
+<button id="uploadbutton" onclick="uploadFile()">Upload File</button><br><br>
 
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -542,7 +542,7 @@
 	function handleUpload(e) {
 		var respose = this.responseText;
 		console.log(respose);
-		$('body').append(respose);
+		$('#uploadbutton').after(respose);
 		$('#upload').DataTable( {
 	        dom: 'T<"clear">lfrtip',
 	        tableTools: {
