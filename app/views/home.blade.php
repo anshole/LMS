@@ -1,13 +1,13 @@
 @extends('layout.main')
 
 @section('content')
-<script type="text/javascript" src="imagesloaded.pkgd.min.js"></script>
-<script type="text/javascript" src="jquery-ui.js"></script>
-<script type="text/javascript" src="video.js"></script>
-<script type="text/javascript" src="bigvideo.js"></script>
-<link rel="stylesheet" type="text/css" href="bigvideo.css">
-<link rel="stylesheet" type="text/css" href="video-js.css">
-<link rel="stylesheet" type="text/css" href="jquery-ui.css">
+<script type="text/javascript" src="Scripts/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+<script type="text/javascript" src="Scripts/video.js"></script>
+<script type="text/javascript" src="Scripts/bigvideo.js"></script>
+<link rel="stylesheet" type="text/css" href="CSS/bigvideo.css">
+<link rel="stylesheet" type="text/css" href="CSS/video-js.css">
+<link rel="stylesheet" type="text/css" href="CSS/jquery-ui.css">
 <script>
 	$(function() {
     	var BV = new $.BigVideo();
