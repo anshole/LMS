@@ -1,7 +1,10 @@
 <?php
 
 class FacultyController extends  BaseController {
-	
+
+	/*
+	* Function for file upload
+	*/
 	public function postUploadFile() {
         $file = Input::file('data');
         $destinationPath = public_path().'/uploads';
@@ -58,5 +61,4 @@ class FacultyController extends  BaseController {
         echo $t1;
     }
 }
-
 ?>
