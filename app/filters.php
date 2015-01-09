@@ -43,7 +43,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('account-create');
+			return Redirect::route('account-create');
 		}
 	}
 });

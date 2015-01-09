@@ -8,7 +8,7 @@
 <script type="text/javascript" src="http://cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
-<link rel="stylesheet" type="text/css" href="{{ asset('CSS/style.css') }}">
+
 <!-- <div style="position:relative;">
 	<form method="post" action="{{basename($_SERVER['PHP_SELF'], ".php");}}">
 		<label style="font-size:15px">Upload file: </label>

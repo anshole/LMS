@@ -19,7 +19,10 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 		<!---Custom styles for this site-->
-		<link rel="stylesheet" href="CSS/style.css"/>
+		<link rel="stylesheet" href="{{ asset('CSS/style.css') }}"/>
+
+		<!--- Script-->
+		<script type="text/javascript" src="{{ asset('Scripts/script.js') }}"></script>
 	</head>
 	<body>
 <!---==================Navbar=====================-->

@@ -21,13 +21,6 @@ Route::get('/', array(
 // }));
 
 /*
- * File upload (test)
-*/
-Route::post('/faculty/zxczc', array(
-	'uses' => 'FacultyController@postUploadFile'
-));
-
-/*
  * Authenticated group
  */
  Route::group(array('before' => 'auth'), function() {
@@ -52,6 +45,13 @@ Route::post('/faculty/zxczc', array(
 	Route::get('/student/{firstname}/', array( 'as' => 'studenthome', function($firstname) {
 			return View::make('student');
 	}));
+
+	/*
+	 * File upload (test)
+	*/
+	Route::post('/faculty/zxczc', array(
+		'uses' => 'FacultyController@postUploadFile'
+	));
  });
 
 /*
