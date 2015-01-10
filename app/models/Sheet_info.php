@@ -7,7 +7,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class Sheet_info extends Eloquent implements UserInterface, RemindableInterface {
 	
-	protected $fillable = array('sheet_id', 'sheet_name', 'sheet_creator');
+	protected $fillable = array('id', 'sheet_name', 'sheet_creator');
 
 	use UserTrait, RemindableTrait;
 

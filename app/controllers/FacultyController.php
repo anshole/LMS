@@ -45,13 +45,33 @@ class FacultyController extends  BaseController {
         $sheet = $objPHPExcel->getSheet(0);
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
+        $highestColNumber = PHPExcel_Cell::columnIndexFromString($highestColumn);
+
         //$res = "";
         $t1 = "Filename<br>";
         $t1 = "<table id='upload' class='table table-condensed table-bordered' cellspacing='0' width='100%'>";
         
+
         $tag = "<thead>";
         $endtag = "</thead>";
         for ($row = 1; $row <= $highestRow; $row++) {
+
+            // Store data in databse
+            for($col = 0; $col < $highestColNumber; $col++) {
+                
+                if ($objPHPExcel->getSheet(0)->getCellByColumnAndRow($col, $row)->getValue() != "") {
+                     
+                     // Store data in Sheet_cell
+                     $sheet_cells = new Sheet_cells;
+                     $sheet_cells->sheet_id = $sheet_info->id;
+                     $sheet_cells->cell_row = $row;
+                     $sheet_cells->cell_column = $col;
+                     $sheet_cells->cell_content = $objPHPExcel->getSheet(0)->getCellByColumnAndRow($col, $row)->getValue();
+                     $sheet_cells->save();
+
+                }
+            }
+
             if ($row == 1) {
             	for ($q = 0; $q < 2; $q++) {
             		if ($q == 1) {
@@ -76,6 +96,7 @@ class FacultyController extends  BaseController {
             $t1 = $t1 . "<tr>";
             $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
             NULL, TRUE, FALSE);
+            
             foreach($rowData[0] as $k=>$v)
                 if ($v != '')
                     $t1 = $t1 . "<td>" .$v . "</td>";
