@@ -26,11 +26,6 @@ class FacultyController extends  BaseController {
         $sheet_name = $file->getClientOriginalName();
         $sheet_creator = Auth::user()->id;
 
-        // Store data in sheet_info table
-        $sheet_info = new Sheet_info;
-        $sheet_info->sheet_name = $sheet_name;
-        $sheet_info->sheet_creator = $sheet_creator;
-        $sheet_info->save();
        
 
         $destinationPath = public_path().'/uploads';
@@ -60,6 +55,19 @@ class FacultyController extends  BaseController {
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
         $highestColNumber = PHPExcel_Cell::columnIndexFromString($highestColumn);
+
+        // Why specifically in Row2? God knows. God requires your sheet's non empty columns in all rows to never
+        // exceed number of non empty columns in Row 2. 
+        $highestColumnInRow2 = $sheet->getHighestColumn(2);
+        $highestColumnNumInRow2 = PHPExcel_Cell::columnIndexFromString($highestColumnInRow2);
+
+        // Store data in sheet_info table
+        $sheet_info = new Sheet_info;
+        $sheet_info->sheet_name = $sheet_name;
+        $sheet_info->sheet_creator = $sheet_creator;
+        $sheet_info->num_of_rows = $highestRow;
+        $sheet_info->num_of_columns = $highestColumnNumInRow2;
+        $sheet_info->save();
 
         //$res = "";
         $t1 = "<br><br>Filename: " . $sheet_name . "<br>";
@@ -124,15 +132,68 @@ class FacultyController extends  BaseController {
 
     /*
     * Function to get a stored file (spreadsheet) from database.
+    * (This needs more testing.)
     */
     public function readStoredFile() {
         // For now, just get the latest stored spreadsheet
         $sheet = Sheet_info::getLastUploadedSheet();
         $sheet_id = $sheet->id;
+        $sheet_maxCols = $sheet->num_of_columns;
+        $sheet_maxRows = $sheet->num_of_rows;
+        
+        $table = "<br><br>Filename: " . $sheet->sheet_name;
+        $table = $table . "<table id='sheet' class='table table-condensed table-bordered' cellspacing='0' width='100%'>";
 
-        // TODO: Send and display the sheet to requesting page.
+        $startTag = "<thead>";
+        $endTag = "</thead>";
 
-        echo "readStoredFile(): Last uploaded sheet id is " . $sheet_id;
+        for ($row = 1; $row <= $sheet_maxRows; $row++) {
+
+            if ($row == 1) {
+                for ($q = 0; $q < 2; $q++) {
+                    if ($q == 1) {
+                        $startTag = "<tfoot>";
+                        $endTag = "</tfoot>";
+                    }
+
+                    $table = $table . $startTag . "<tr>";
+
+                    for ($col = 0; $col < $sheet_maxCols; $col++) {
+                        $sheet_cell = Sheet_cells::where([
+                                'sheet_id' => $sheet_id, 
+                                'cell_column' => $col,
+                                'cell_row' => $row
+                            ])->first();
+
+                        $table = $table . "<th>" . $sheet_cell["cell_content"] . "</th>";
+                    }
+
+                    $table = $table . $endTag ."</tr>";
+                }
+            } else {
+
+                $table = $table . "<tr>";
+
+                for ($col = 0; $col < $sheet_maxCols; $col++) {
+
+
+                    $sheet_cell = Sheet_cells::where([
+                                    'sheet_id' => $sheet_id, 
+                                    'cell_column' => $col,
+                                    'cell_row' => $row
+                                ])->first();
+
+                    $table = $table . "<td>" . $sheet_cell["cell_content"] . "</td>";
+                }
+
+                $table = $table . "</tr>";
+            }
+        }
+
+        $table = $table . "</tbody></table>";
+
+        echo $table;
+        //echo "readStoredFile(): Last uploaded sheet id is " . $sheet_id;
     }
 }
 ?>

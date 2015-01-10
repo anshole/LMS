@@ -37,5 +37,13 @@ function openStoredFile() {
 
 function getTableFromData(e) {
 	var response = this.responseText;
+
 	console.log(response);
+	$('#openStoredSheet').after(response);
+		$('#sheet').DataTable( {
+	        dom: 'T<"clear">lfrtip',
+	        tableTools: {
+	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+	        }
+	   } );
 }
