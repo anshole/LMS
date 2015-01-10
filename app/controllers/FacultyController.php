@@ -2,6 +2,20 @@
 
 class FacultyController extends  BaseController {
 
+    /*
+    * All POST requests first come here.
+    */ 
+    public function postRequestHandler() {
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if(isset($_POST["ext"])) {
+                $this->postUploadFile();
+            } else if (isset($_POST["sheetid"])) {
+                $this->readStoredFile();
+            }
+        }
+    }
+
 	/*
 	* Function for file upload
 	*/
@@ -48,8 +62,8 @@ class FacultyController extends  BaseController {
         $highestColNumber = PHPExcel_Cell::columnIndexFromString($highestColumn);
 
         //$res = "";
-        $t1 = "Filename<br>";
-        $t1 = "<table id='upload' class='table table-condensed table-bordered' cellspacing='0' width='100%'>";
+        $t1 = "<br><br>Filename: " . $sheet_name . "<br>";
+        $t1 = $t1 . "<table id='upload' class='table table-condensed table-bordered' cellspacing='0' width='100%'>";
         
 
         $tag = "<thead>";
@@ -106,6 +120,19 @@ class FacultyController extends  BaseController {
         }
         $t1 = $t1 . "</tbody></table>";
         echo $t1;
+    }
+
+    /*
+    * Function to get a stored file (spreadsheet) from database.
+    */
+    public function readStoredFile() {
+        // For now, just get the latest stored spreadsheet
+        $sheet = Sheet_info::getLastUploadedSheet();
+        $sheet_id = $sheet->id;
+
+        // TODO: Send and display the sheet to requesting page.
+
+        echo "readStoredFile(): Last uploaded sheet id is " . $sheet_id;
     }
 }
 ?>

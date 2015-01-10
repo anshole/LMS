@@ -19,6 +19,14 @@ class Sheet_info extends Eloquent implements UserInterface, RemindableInterface 
 	protected $table = 'sheet_info';
 
 	/**
+	* Get latest stored sheet id
+	*/
+	public static function getLastUploadedSheet() {
+
+		return Sheet_info::orderby('created_at', 'desc')->first();
+	}
+
+	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array

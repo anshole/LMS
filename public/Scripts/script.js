@@ -22,3 +22,20 @@ $(function() {
 		});
 	});
 });
+
+function openStoredFile() {
+
+	var ajax = new XMLHttpRequest();
+	var formdata = new FormData();
+	formdata.append('sheetid', 'sheetid');
+
+	ajax.addEventListener("load", getTableFromData, false);
+
+	ajax.open('POST', '/projects/laravel/authapp/public/faculty/zxczc');
+	ajax.send(formdata);
+}
+
+function getTableFromData(e) {
+	var response = this.responseText;
+	console.log(response);
+}
