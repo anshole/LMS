@@ -16,7 +16,7 @@ class Sheet_cells extends Eloquent implements UserInterface, RemindableInterface
 	 *
 	 * @var string
 	 */
-	protected $table = 'sheet_info';
+	protected $table = 'sheet_cells';
 
 	/**
 	 * The attributes excluded from the model's JSON form.

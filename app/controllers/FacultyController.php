@@ -6,7 +6,19 @@ class FacultyController extends  BaseController {
 	* Function for file upload
 	*/
 	public function postUploadFile() {
+
         $file = Input::file('data');
+
+        $sheet_name = $file->getClientOriginalName();
+        $sheet_creator = Auth::user()->id;
+
+        // Store data in sheet_info table
+        $sheet_info = new Sheet_info;
+        $sheet_info->sheet_name = $sheet_name;
+        $sheet_info->sheet_creator = $sheet_creator;
+        $sheet_info->save();
+       
+
         $destinationPath = public_path().'/uploads';
         $filename        = str_random(6) . '_' . $file->getClientOriginalName();
         $uploadSuccess   = $file->move($destinationPath, $filename);
@@ -48,11 +60,12 @@ class FacultyController extends  BaseController {
                     }
 
                 	$t1 = $t1 . $tag;
-	                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
+	                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
 	                NULL, TRUE, FALSE);
 	                foreach($rowData[0] as $k=>$v)
 	                    if ($v != '')
 	                        $t1 = $t1 . "<th>" .$v . "</th>";
+                             
 	                        //$res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
 	                $t1 = $t1 . $endtag;
 		    	
@@ -66,6 +79,7 @@ class FacultyController extends  BaseController {
             foreach($rowData[0] as $k=>$v)
                 if ($v != '')
                     $t1 = $t1 . "<td>" .$v . "</td>";
+
                     //$res = $res . "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
             $t1 = $t1 . "</tr>";
         }
