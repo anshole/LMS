@@ -25,6 +25,7 @@
 
 <input type="file" id="file-source" name="file"><br>
 <button id="uploadbutton" onclick="uploadFile()">Upload File</button><br><br>
+<button id="openStoredSheet" onclick="openStoredFile()">Open Stored File</button><br><br>
 
 <table id="example" class="table table-condensed table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -593,45 +594,5 @@
     div.DTTT { margin-bottom: 0.5em; float: right; }
     div.dataTables_wrapper { clear: both; }
 </style>
-
-<?php
-// Handle File upload
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$file = $_POST["file_source"];
-
-	readUploadedFile('$file');
-}
-
-function readUploadedFile($file) {
-	$inputFileName =  $file; //'./files/index.xlsx';
-
-	if (!file_exists($inputFileName)) {
-		exit("File not found." . EOL);
-	} 
-
-	$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-
-	try {
-	    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-	    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-	    $objPHPExcel = $objReader->canRead($inputFileName);
-	    $objPHPExcel = $objReader->load($inputFileName);
-	} catch (Exception $e) {
-	    die('Error loading file');
-	}
-	$sheet = $objPHPExcel->getSheet(0);
-	$highestRow = $sheet->getHighestRow();
-	$highestColumn = $sheet->getHighestColumn();
-
-	for ($row = 1; $row <= $highestRow; $row++) {
-	    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, 
-	    NULL, TRUE, FALSE);
-	    foreach($rowData[0] as $k=>$v)
-	    	if ($v != '')
-	        	echo "Row: ".$row.", Col: ".($k+1)." = ".$v."<br/>";
-	}	
-}
-// Read file
-?>
 
 @stop
