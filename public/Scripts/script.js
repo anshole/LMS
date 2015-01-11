@@ -47,3 +47,35 @@ function getTableFromData(e) {
 	   } );
 }
 
+function createNewSheet() {
+
+	createNewDatatable();
+}
+
+function createNewDatatable() {
+	$('#addRow').show();
+	$('#example').show();
+	var t = $('#example').DataTable({
+	        dom: 'T<"clear">lfrtip',
+	        tableTools: {
+	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+	        }
+	   });
+
+    var counter = 1;
+ 
+    $('#addRow').on('click', function () {
+        t.row.add( [
+            counter +'.1',
+            counter +'.2',
+            counter +'.3',
+            counter +'.4',
+            counter +'.5'
+        ] ).draw();
+ 
+        counter++;
+    } );
+
+    // Automatically add a first row of data
+    $('#addRow').click();
+}

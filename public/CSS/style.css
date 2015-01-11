@@ -22,3 +22,15 @@
 .form-control {
 	border-radius: 0;
 }
+
+.options {
+	display: inline;
+}
+
+#example {
+	display: none;
+}
+
+#addRow {
+	display: none;
+}

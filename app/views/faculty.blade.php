@@ -8,6 +8,8 @@
 <script type="text/javascript" src="http://cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+<script type="text/javascript" src="{{ asset('Scripts/handsontable.full.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('CSS/handsontable.full.min.css') }}">
 
 <!-- <div style="position:relative;">
 	<form method="post" action="{{basename($_SERVER['PHP_SELF'], ".php");}}">
@@ -25,9 +27,38 @@
 
 <input type="file" id="file-source" name="file"><br>
 <button id="uploadbutton" onclick="uploadFile()">Upload File</button><br><br>
-<button id="openStoredSheet" onclick="openStoredFile()">Open Stored File</button><br><br>
 
-<table id="example" class="table table-condensed table-bordered" cellspacing="0" width="100%">
+<button class="options" id="openStoredSheet" onclick="openStoredFile()">Open Stored File</button>
+<button class="options" id="createNewSheet" onclick="createNewSheet()">Create New Sheet</button>
+<br><br>
+<div id="new"></div>
+
+<div>
+    <button id="addRow">Add Row</button>
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+                <th>Column 5</th>
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+                <th>Column 5</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<table id="testexample" class="table table-condensed table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Name</th>
@@ -573,7 +604,7 @@
 	]
 
 	$(document).ready(function() {
-	    $('#example').DataTable( {
+	    $('#testexample').DataTable( {
 	        dom: 'T<"clear">lfrtip',
 	        tableTools: {
 	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
