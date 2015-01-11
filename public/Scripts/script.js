@@ -1,6 +1,5 @@
-$(function() {
-	$("td").dblclick(function(e) {
-		if ($(this).children().first().is(":focus")) {
+$(document).on("dblclick", "td", function() {
+	if ($(this).children().first().is(":focus")) {
 			return false;
 		} else {
 			var prevVal = $(this).text();
@@ -20,8 +19,8 @@ $(function() {
 		$(this).children().first().blur(function() {
 			$(this).parent().text(prevVal);
 		});
-	});
 });
+
 
 function openStoredFile() {
 
@@ -47,3 +46,4 @@ function getTableFromData(e) {
 	        }
 	   } );
 }
+
