@@ -28,16 +28,30 @@
 <input type="file" id="file-source" name="file"><br>
 <button id="uploadbutton" onclick="uploadFile()">Upload File</button><br><br>
 
+<div id="dOptions">
 <button class="options" id="openStoredSheet" onclick="openStoredFile()">Open Stored File</button>
 <button class="options" id="createNewSheet" onclick="createNewSheet()">Create New Sheet</button>
+</div>
 <br><br>
 <div id="new"></div>
 
-<div>
+<div id="dNew">
     <button id="addRow">Add Row</button>
+    <button id="addColumn">Add Column</button>
+
+    <table class="dataTable" id="mynewtable">
+        <thead>
+            
+        </thead>
+        <tfoot>
+            
+        </tfoot>
+    </table>
+
+
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
-            <tr>
+            <tr  id="examplethead">
                 <th>Column 1</th>
                 <th>Column 2</th>
                 <th>Column 3</th>
@@ -47,7 +61,7 @@
         </thead>
  
         <tfoot>
-            <tr>
+            <tr  id="exampletfoot">
                 <th>Column 1</th>
                 <th>Column 2</th>
                 <th>Column 3</th>
@@ -606,6 +620,7 @@
 	$(document).ready(function() {
 	    $('#testexample').DataTable( {
 	        dom: 'T<"clear">lfrtip',
+            'bProcessing': true,
 	        tableTools: {
 	            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
 	        }
