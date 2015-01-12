@@ -7,7 +7,8 @@
 		<title>Lecture Management System</title>
 
 		<!---Bootstrap core css-->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+		<!---<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>-->
+		<link rel="stylesheet" type="text/css" href="{{ asset('CSS/flatly.min.css') }}">
 
 		<!---Font Awesome core css-->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -26,7 +27,7 @@
 	</head>
 	<body>
 <!---==================Navbar=====================-->
-		<nav class="navbar navbar-inverse" role="navigation">
+		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
