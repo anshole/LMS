@@ -16,6 +16,11 @@ Route::get('/', array(
 	'uses' => 'HomeController@home'
 ));
 
+Route::get('/about', array(
+	'as' => 'about',
+	'uses' => 'HomeController@getAbout'
+));
+
 // Route::get('/account/{what}/', array( 'as' => 'account-login-post', function($what) {
 	// return "Custom shit.".$what;
 // }));
